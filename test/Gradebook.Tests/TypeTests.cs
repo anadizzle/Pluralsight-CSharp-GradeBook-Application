@@ -8,6 +8,14 @@ namespace Gradebook.Tests
     public class TypeTests
     {
         [Fact]
+        public void ValidGradeRange()
+        {
+            var book = new Book("Book1");
+            book.AddGrade(105);
+            
+        }
+
+        [Fact]
         public void StringsBehaveLikeValueTypes()
         {
             string name = "Scott";
