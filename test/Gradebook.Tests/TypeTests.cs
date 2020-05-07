@@ -5,14 +5,34 @@ using Xunit;
 namespace Gradebook.Tests
 {
 
+    public delegate string WriteLogDelegate(string logMessage);
+
     public class TypeTests
     {
+        int count = 0;
+
         [Fact]
-        public void ValidGradeRange()
+        public void WriteLogDelegateCanPointToMethod()
         {
-            var book = new Book("Book1");
-            book.AddGrade(105);
-            
+            WriteLogDelegate log = ReturnMessage;
+
+            log += ReturnMessage;
+            log += IncrementCount;
+
+            var result = log("Hello!");
+            Assert.Equal(3, count);
+        }
+
+        string IncrementCount(string message)
+        {
+            count++;
+            return message.ToLower();
+        }
+
+        string ReturnMessage(string message)
+        {
+            count++;
+            return message;
         }
 
         [Fact]
@@ -110,7 +130,7 @@ namespace Gradebook.Tests
     
         }
 
-        
+        [Fact]
         public void TwoVarsCanReferenceSameObjects()
         {
             // arrange
@@ -126,19 +146,19 @@ namespace Gradebook.Tests
             
         }
 
-        Book GetBook(string name)
+        InMemoryBook GetBook(string name)
         {
-            return new Book(name);
+            return new InMemoryBook(name);
         }
-        private void GetBookSetName(out Book book, string name)
+        private void GetBookSetName(out InMemoryBook book, string name)
         {
-            book = new Book(name);
+            book = new InMemoryBook(name);
         }
-        private void GetBookSetName(Book book, string name)
+        private void GetBookSetName(InMemoryBook book, string name)
         {
-            book = new Book(name);
+            book = new InMemoryBook(name);
         }
-        private void SetName(Book book, string name)
+        private void SetName(InMemoryBook book, string name)
         {
             book.Name = name;
         }
